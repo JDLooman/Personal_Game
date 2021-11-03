@@ -30,14 +30,35 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerInput.x > 0)
+       if (playerInput.x > 0)
+       {
+           acceleration = Vector3.right * accelerationRate;
+      
+           velocity += acceleration * Time.deltaTime;
+       }
+       else if (playerInput.x < 0)
+       {
+           acceleration = Vector3.left * accelerationRate;
+      
+           velocity += acceleration * Time.deltaTime;
+       }
+        else
         {
-            TurnBy(-turnSpeed);
+            velocity.x *= 1 - (deccelerationRate * Time.deltaTime);
+            
+            if(velocity.x < minSpeed)
+            {
+                velocity.x = 0;
+            }
         }
-        else if (playerInput.x < 0)
-        {
-            TurnBy(turnSpeed);
-        }
+
+        //else
+        //{
+        //    velocity *= 1 - (deccelerationRate * Time.deltaTime);
+
+        //    if (velocity.magnitude < minSpeed)
+        //        velocity = Vector3.zero;
+        //}
 
         if (playerInput.y > 0)
         {
@@ -57,10 +78,10 @@ public class Player : MonoBehaviour
         }
         else
         {
-            velocity *= 1 - (deccelerationRate * Time.deltaTime);
+            velocity.z *= 1 - (deccelerationRate * Time.deltaTime);
             
-            if (velocity.magnitude < minSpeed)
-                velocity = Vector3.zero;
+            if (velocity.z < minSpeed)
+                velocity.z = 0;
         }
 
 
